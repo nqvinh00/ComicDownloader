@@ -16,6 +16,6 @@ def getImage(url):
     link = body.find('article', id = 'content')
     link_image = []
     for i in link.find_all('img'):
-        link_image.append(i)
+        link_image.append(i.get('src'))
 
     return link_image
