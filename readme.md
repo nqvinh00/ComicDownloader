@@ -1,2 +1,2 @@
 # Download Comic
-Download comics from some website
+Download comics from some websites
