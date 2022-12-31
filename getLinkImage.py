@@ -14,6 +14,8 @@ def get_image(url):
         link = body.find('div', class_ = 'reading-detail box_doc')
     elif "blogtruyen" in url:
         link = body.find('article', id = 'content')
+    elif 'tctruyen' in url:
+        link = body.find('div', id='contain-chapter')
 
     link_images = []
     for i in link.find_all('img'):
