@@ -1,21 +1,25 @@
-from urllib import request, parse
 from bs4 import BeautifulSoup
-import re
+import requests
+from headers import *
 
-def getImage(url):
-    values = {'s': 'basic', 'submit': 'search'}
-    headers = {}
-    headers['User-Agent'] = 'Mozilla/5.0'
-    data = parse.urlencode(values)
-    data = data.encode('utf-8')
-    req = request.Request(url, data, headers=headers)
-    source = request.urlopen(req).read()
-    soup = BeautifulSoup(source, 'html5lib')
+def get_image(url):
+    req = requests.get(url, headers=headers)
+    if req.status_code != 200:
+        raise "get_image: request error"
+    source = req.content
+    soup = BeautifulSoup(source, 'html.parser')
 
     body = soup.body
-    link = body.find('article', id = 'content')
-    link_image = []
-    for i in link.find_all('img'):
-        link_image.append(i.get('src'))
+    if "nettruyen" in url:
+        link = body.find('div', class_ = 'reading-detail box_doc')
+    elif "blogtruyen" in url:
+        link = body.find('article', id = 'content')
 
-    return link_image
+    link_images = []
+    for i in link.find_all('img'):
+        src = i.get('src')
+        if "https:" not in src:
+            src = "https:" + src
+        link_images.append(src)
+
+    return link_images
