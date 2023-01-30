@@ -1,8 +1,5 @@
-from downloadComic import download_comic
-
-def main():
-    url = ""
-    download_comic(url)
+from app import App
 
 if __name__ == "__main__":
-    main()
+    app = App("500x350")
+    app.mainloop()

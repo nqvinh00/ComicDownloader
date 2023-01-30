@@ -1,2 +1,5 @@
 beautifulsoup4==4.11.1
+customtkinter==5.0.5
+Pillow==9.4.0
+proxies==1.6
 requests==2.25.1
