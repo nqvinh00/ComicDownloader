@@ -4,7 +4,11 @@ from threading import Thread
 
 
 class App(ctkinter.CTk):
-    def __init__(self, geometry, mode="dark", color_theme="dark-blue") -> None:
+    def __init__(self, geometry: str, mode: str = "dark", color_theme: str = "dark-blue"):
+        """ Setup UI for app with customtkinter.
+        Simply, it has a label, an entry to enter URL, a button to start download process.
+        Also, a progress bar and a label for progress status.
+        """
         super().__init__()
 
         self.title = "Comic Downloader"
@@ -35,6 +39,9 @@ class App(ctkinter.CTk):
             master=self.frame, width=50, height=25, font=("Roboto", 12))
 
     def button_event(self):
+        """ Define event for button click.
+        If input, start download process by spawn Thread and monitor it.
+        """
         input = self.entry.get()
         if self.button.cget("text") != "Download":
             self.button.configure(text="Download")
@@ -56,10 +63,11 @@ class App(ctkinter.CTk):
                 self.button.configure(state="normal", text="Try Again")
                 self.progress_bar.stop()
 
-    def start_download(self, downloader):
+    def start_download(self, downloader: Downloader):
         downloader.download_comic()
 
-    def monitor(self, t, downloader):
+    def monitor(self, t: Thread, downloader: Downloader):
+        # Monitor download process
         if t.is_alive() or not downloader.done():
             self.after(200, lambda: self.monitor(t, downloader))
         else:
